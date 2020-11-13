@@ -2,9 +2,9 @@ module github.com/axkit/aaa
 
 go 1.13
 
-replace github.com/axkit/vatel => /home/gera/go/src/github.com/axkit/vatel
+//replace github.com/axkit/vatel => /home/gera/go/src/github.com/axkit/vatel
 
-replace github.com/axkit/errors => /home/gera/go/src/github.com/axkit/errors
+//replace github.com/axkit/errors => /home/gera/go/src/github.com/axkit/errors
 
 require (
 	github.com/axkit/bitset v0.0.4
