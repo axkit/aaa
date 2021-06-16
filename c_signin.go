@@ -30,7 +30,7 @@ func (c *SignInController) Result() interface{} {
 func (c *SignInController) Handle(ctx vatel.Context) error {
 	tr, err := c.a.SignIn(c.input.Login, c.input.Password) // , string(ctx.UserAgent()), ctx.RemoteIP().String())
 	if err != nil {
-		return errors.Catch(err).Msg("sign in failed").StatusCode(401).Severity(errors.Medium)
+		return errors.Catch(err).StatusCode(401).Severity(errors.Medium).Msg("sign in failed")
 	}
 	c.output = tr
 	return nil
