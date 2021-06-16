@@ -65,7 +65,7 @@ func (a *BasicAAA) SignIn(login, password string) (*TokenSet, error) {
 	u, err := a.us.UserByCredentials(login, password)
 	if err != nil {
 		// записать в лог err потому что он подробный (логин не найден, пароль не соответсвует)
-		return nil, errors.Catch(err).Msg("invalid cridentials").StatusCode(401).Set("login", login)
+		return nil, errors.Catch(err).StatusCode(401).Set("login", login).Msg("invalid cridentials")
 	}
 
 	if u.UserLocked() {
@@ -86,14 +86,14 @@ func (a *BasicAAA) Refresh(encodedToken []byte) (*TokenSet, error) {
 	var rt RefreshToken
 	_, err := jwt.Verify(encodedToken, jwt.NewHS256([]byte(a.cfg.EncryptionKey)), &rt)
 	if err != nil {
-		return nil, errors.Catch(err).Msg("refresh token verify failed").StatusCode(401)
+		return nil, errors.Catch(err).StatusCode(401).Msg("refresh token verify failed")
 	}
 
 	var tv = jwt.ExpirationTimeValidator(time.Now())
 
 	err = tv(&rt.Payload)
 	if err != nil {
-		return nil, errors.Catch(err).Msg("refresh token expired").StatusCode(401)
+		return nil, errors.Catch(err).StatusCode(401).Msg("refresh token expired")
 	}
 
 	u, err := a.us.UserByID(rt.UserID)
@@ -114,14 +114,14 @@ func (s *BasicAAA) Decode(encodedToken []byte) (vatel.Tokener, error) {
 	var at Token
 	_, err := jwt.Verify(encodedToken, jwt.NewHS256([]byte(s.cfg.EncryptionKey)), &at)
 	if err != nil {
-		return nil, errors.Catch(err).Msg("invalid access token").StatusCode(401)
+		return nil, errors.Catch(err).StatusCode(401).Msg("invalid access token")
 	}
 
 	var tv = jwt.ExpirationTimeValidator(time.Now())
 
 	err = tv(&at.Payload)
 	if err != nil {
-		return nil, errors.Catch(err).Msg("access token expired").StatusCode(401)
+		return nil, errors.Catch(err).StatusCode(401).Msg("access token expired")
 	}
 
 	return &at, nil
@@ -174,7 +174,7 @@ func (a *BasicAAA) generateTokenSet(u Userer) (*TokenSet, error) {
 		var err error
 		at.App.ExtraPayload, err = a.extraAssigner(userID)
 		if err != nil {
-			return nil, errors.Catch(err).Msg("building token->extra failed").StatusCode(500)
+			return nil, errors.Catch(err).StatusCode(500).Msg("building token->extra failed")
 		}
 	}
 
