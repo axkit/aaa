@@ -44,9 +44,9 @@ func (a *BasicAAA) SetExtraAssigner(f func(userID int) (map[string]interface{}, 
 // Endpoints returnts lists of endpoints serving by BasicAAA.
 func (a *BasicAAA) Endpoints() []vatel.Endpoint {
 	return []vatel.Endpoint{
-		{Method: "POST", Path: EPSignIn, NoInputLog: true,
+		{Method: "POST", Path: EPSignIn, NoInputLog: true, NoResultLog: true,
 			Controller: func() vatel.Handler { return &SignInController{a: a} }},
-		{Method: "POST", Path: EPRefreshToken, NoInputLog: true,
+		{Method: "POST", Path: EPRefreshToken, NoInputLog: true, NoResultLog: true,
 			Controller: func() vatel.Handler { return &RefreshController{a: a} }},
 		{Method: "POST", Path: EPIsTokenValid,
 			Controller: func() vatel.Handler { return &IsTokenValidController{a: a} }},
