@@ -65,7 +65,7 @@ func (a *BasicAAA) SignIn(login, password string) (*TokenSet, error) {
 	u, err := a.us.UserByCredentials(login, password)
 	if err != nil {
 		// записать в лог err потому что он подробный (логин не найден, пароль не соответсвует)
-		return nil, errors.Catch(err).StatusCode(401).Set("login", login).Msg("invalid cridentials")
+		return nil, errors.Catch(err).StatusCode(401).Set("login", login).Msg("invalid credentials")
 	}
 
 	if u.UserLocked() {
@@ -75,7 +75,7 @@ func (a *BasicAAA) SignIn(login, password string) (*TokenSet, error) {
 	return a.generateTokenSet(u)
 }
 
-// GenerateToken generates JWT token without cridentials.
+// GenerateToken generates JWT token without credentials.
 func (a *BasicAAA) GenerateToken(u Userer) (*TokenSet, error) {
 	return a.generateTokenSet(u)
 }

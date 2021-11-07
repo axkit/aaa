@@ -130,8 +130,8 @@ type RefreshToken struct {
 // TokenSet describes response on successfull sign in and refresh token requests.
 type TokenSet struct {
 	Access             string   `json:"access_token"`
-	Refresh            string   `json:"refresh_token"`
-	AllowedPermissions []string `json:"allowed_permissions"`
+	Refresh            string   `json:"refresh_token,omitempty"`
+	AllowedPermissions []string `json:"allowed_permissions,omitempty"`
 }
 
 func (t *Token) JSON() []byte {
@@ -162,4 +162,8 @@ func (t *ApplicationPayload) Perms() []byte {
 
 func (t *ApplicationPayload) Extra() interface{} {
 	return t.ExtraPayload
+}
+
+func (t *ApplicationPayload) Debug() bool {
+	return t.IsDebug
 }
