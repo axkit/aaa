@@ -133,7 +133,7 @@ func (a *BasicAAA) IsAllowed(requestPerms []byte, bitpos ...uint) (bool, error) 
 	if n := len(requestPerms); n > 0 && n%2 != 0 {
 		return false, errors.New("invalid request permission set").StatusCode(401)
 	}
-	return bitset.AreSet(requestPerms, bitpos...)
+	return bitset.AreSet(requestPerms, bitset.All, bitpos...)
 }
 
 func (a *BasicAAA) generateTokenSet(u Userer) (*TokenSet, error) {
